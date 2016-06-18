@@ -6,3 +6,5 @@
 .idea/shop-finder.iml
 .idea/workspace.xml
 .idea/*
+target/*
+target/
