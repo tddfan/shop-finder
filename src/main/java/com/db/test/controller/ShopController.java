@@ -2,6 +2,7 @@ package com.db.test.controller;
 
 
 
+import com.db.test.bean.Shop;
 import com.db.test.request.AddShopRequest;
 import com.db.test.service.AddShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ShopController {
     }
 
     @RequestMapping(value="/shop/add", method= POST)
-    public String addShop(@RequestBody AddShopRequest request) {
-        return null;
+    public Shop addShop(@RequestBody AddShopRequest request) {
+        return addShopService.save(request.getShopName(), request.getAddress());
     }
 
 }

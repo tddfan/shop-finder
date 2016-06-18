@@ -1,6 +1,11 @@
 package unit.controller;
 
 import com.db.test.bean.Address;
+import com.db.test.bean.GeoLocation;
+import com.db.test.bean.Shop;
+import com.db.test.bean.builder.AddressBuilder;
+import com.db.test.bean.builder.GeoLocationBuilder;
+import com.db.test.bean.builder.ShopBuilder;
 import com.db.test.controller.ShopController;
 import com.db.test.request.AddShopRequest;
 import com.db.test.service.AddShopService;
@@ -19,8 +24,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -42,7 +52,7 @@ public class ShopControllerTest {
     public void testAddShop() throws Exception {
 
         String shopName = "Pizza Shop";
-        Address address = new Address("10", "SE16 7AJ");
+        Address address = new AddressBuilder().setNumber("10").setPostcode("SE16 7AJ").createAddress();
 
         AddShopRequest request = new AddShopRequest();
         request.setShopName(shopName);
@@ -54,8 +64,9 @@ public class ShopControllerTest {
                 .content(jsonRequest))
                 .andExpect(status().isOk());
 
-    }
+        verify(addShopService, times(1)).save(shopName, address);
 
+    }
 
     private String getJsonRequest(Object request) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
