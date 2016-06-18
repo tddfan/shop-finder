@@ -3,6 +3,7 @@ package unit.controller;
 import com.db.test.bean.Address;
 import com.db.test.controller.ShopController;
 import com.db.test.request.AddShopRequest;
+import com.db.test.service.AddShopService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.mock.web.MockServletContext;
@@ -28,9 +30,12 @@ public class ShopControllerTest {
 
     private MockMvc mvc;
 
+    @Mock
+    private AddShopService addShopService;
+
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.standaloneSetup(new ShopController()).build();
+        mvc = MockMvcBuilders.standaloneSetup(new ShopController(addShopService)).build();
     }
 
     @Test

@@ -2,6 +2,8 @@ package unit.repository;
 
 import com.db.test.bean.GeoLocation;
 import com.db.test.bean.Shop;
+import com.db.test.bean.builder.GeoLocationBuilder;
+import com.db.test.bean.builder.ShopBuilder;
 import com.db.test.repository.ShopRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,18 +30,21 @@ public class ShopRepositoryTest {
 
     @Test
     public void testAddShop() throws Exception {
-        GeoLocation location1 = new GeoLocation(1.2D, 1.3D);
-        shopRepository.addShop(new Shop("ABC", null, location1));
+        GeoLocation location1 = new GeoLocationBuilder().setLat(1.2D).setLng(1.3D).createGeoLocation();
+
+        shopRepository.addShop(new ShopBuilder().setShopName("ABC").setAddress(null).setGeoLocation(location1).createShop());
 
         assertEquals(1, shopRepository.size());
     }
 
     @Test
     public void testGetShopWhenExists() throws Exception {
-        GeoLocation location1 = new GeoLocation(1.2D, 1.3D);
-        GeoLocation location2 = new GeoLocation(1.1D, 1.4D);
-        Shop shop1 = new Shop("ABC", null, location1);
-        Shop shop2 = new Shop("XYZ", null, location2);
+
+        GeoLocation location1 = new GeoLocationBuilder().setLat(1.2D).setLng(1.3D).createGeoLocation();
+        GeoLocation location2 = new GeoLocationBuilder().setLat(1.1D).setLng(1.4D).createGeoLocation();
+
+        Shop shop1 = new ShopBuilder().setShopName("ABC").setAddress(null).setGeoLocation(location1).createShop();
+        Shop shop2 = new ShopBuilder().setShopName("XYZ").setAddress(null).setGeoLocation(location2).createShop();
 
         shopRepository.addShop(shop1);
         shopRepository.addShop(shop2);
@@ -51,16 +56,22 @@ public class ShopRepositoryTest {
 
     @Test
     public void testGetShopNotExistsAtLocation() throws Exception {
-        GeoLocation location1 = new GeoLocation(1.2D, 1.3D);
+
+        GeoLocation location1 = new GeoLocationBuilder().setLat(1.2D).setLng(1.3D).createGeoLocation();
+
         assertNull(shopRepository.getShop(location1));
     }
 
     @Test
     public void testGetAllLocation() throws Exception {
 
-        GeoLocation location = new GeoLocation(1.2D, 1.3D);
+        GeoLocation location = new GeoLocationBuilder().setLat(1.2D).setLng(1.3D).createGeoLocation();
 
-        shopRepository.addShop(new Shop("", null, location));
+        shopRepository.addShop(new ShopBuilder()
+                    .setShopName("")
+                    .setAddress(null)
+                    .setGeoLocation(location)
+                    .createShop());
 
         assertEquals(location, shopRepository.getAllLocation().toArray(new GeoLocation[0])[0]);
         assertEquals(1, shopRepository.getAllLocation().size());
