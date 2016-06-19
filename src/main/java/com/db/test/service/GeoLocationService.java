@@ -7,13 +7,19 @@ import com.db.test.bean.GeoLocation;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GeoLocationService {
 
+    @Value("${google.maps.api.key}")
+    private String apiKey;
+
     public GeoLocation findLocation(Address address) {
-        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyD0kxhy0wl5Cdd6vAsHD7rvBd2H0V6fRTc");
+
+        System.out.println("Key =" + apiKey);
+        GeoApiContext context = new GeoApiContext().setApiKey(apiKey);
         GeocodingResult[] results = new GeocodingResult[0];
 
         try {
