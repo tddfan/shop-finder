@@ -3,6 +3,7 @@ package com.db.test.controller;
 
 
 import com.db.test.bean.Shop;
+import com.db.test.bean.builder.GeoLocationBuilder;
 import com.db.test.request.AddShopRequest;
 import com.db.test.service.AddShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ public class ShopController {
     @RequestMapping(value="/shop/add", method= POST)
     public Shop addShop(@RequestBody AddShopRequest request) {
         return addShopService.save(request.getShopName(), request.getAddress());
+    }
+
+    @RequestMapping(value="/shop/find", method= GET)
+    public Shop findNearestShop(@RequestParam(value="latitude") String latitude,
+                                @RequestParam(value="longitude") String longitude) {
+
+        return null;
     }
 
 }

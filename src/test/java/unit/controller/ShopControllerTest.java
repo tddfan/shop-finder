@@ -68,6 +68,18 @@ public class ShopControllerTest {
 
     }
 
+    @Test
+    public void testFindNearestShop() throws Exception {
+
+        mvc.perform(get("/shop/find")
+                .param("latitude","10.00909")
+                .param("longitude","23.90900909")
+                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+
+    }
+
     private String getJsonRequest(Object request) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
